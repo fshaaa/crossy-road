@@ -1,4 +1,5 @@
-const counterDOM = document.getElementById('counter');  
+const counterDOM = document.getElementById('counter'); 
+const highscoreDOM = document.getElementById('highscore') 
 const endDOM = document.getElementById('end');  
 
 const scene = new THREE.Scene();
@@ -422,6 +423,7 @@ function Lane(index) {
 document.querySelector("#retry").addEventListener("click", () => {
   lanes.forEach(lane => scene.remove( lane.mesh ));
   initaliseValues();
+  counterDOM.innerHTML = 0;
   endDOM.style.visibility = 'hidden';
 });
 
@@ -556,7 +558,10 @@ function animate(timestamp) {
       switch(moves[0]) {
         case 'forward': {
           currentLane++;
-          counterDOM.innerHTML = currentLane;    
+          counterDOM.innerHTML = currentLane;
+          if(highscoreDOM.innerHTML<currentLane){
+            highscoreDOM.innerHTML = currentLane;
+          }
           break;
         }
         case 'backward': {
