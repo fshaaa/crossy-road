@@ -422,6 +422,7 @@ function Lane(index) {
 document.querySelector("#retry").addEventListener("click", () => {
   lanes.forEach(lane => scene.remove( lane.mesh ));
   initaliseValues();
+  counterDOM.innerHTML = 0;
   endDOM.style.visibility = 'hidden';
 });
 
@@ -591,7 +592,7 @@ function animate(timestamp) {
       const carMinX = vechicle.position.x - vechicleLength*zoom/2;
       const carMaxX = vechicle.position.x + vechicleLength*zoom/2;
       if(chickenMaxX > carMinX && chickenMinX < carMaxX) {
-        endDOM.style.visibility = 'visible';
+        endDOM.style.visibility = 'visible';  
       }
     });
 
