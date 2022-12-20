@@ -1,5 +1,4 @@
-const counterDOM = document.getElementById('counter'); 
-const highscoreDOM = document.getElementById('highscore') 
+const counterDOM = document.getElementById('counter');  
 const endDOM = document.getElementById('end');  
 
 const scene = new THREE.Scene();
@@ -35,6 +34,7 @@ let previousTimestamp;
 let startMoving;
 let moves;
 let stepStartTimestamp;
+let gameOver = false;
 
 const carFrontTexture = new Texture(40,80,[{x: 0, y: 10, w: 30, h: 60 }]);
 const carBackTexture = new Texture(40,80,[{x: 10, y: 10, w: 30, h: 60 }]);
@@ -103,7 +103,7 @@ const initaliseValues = () => {
   currentColumn = Math.floor(columns/2);
 
   previousTimestamp = null;
-
+  gameOver=false;
   startMoving = false;
   moves = [];
   stepStartTimestamp;
@@ -422,7 +422,6 @@ function Lane(index) {
 document.querySelector("#retry").addEventListener("click", () => {
   lanes.forEach(lane => scene.remove( lane.mesh ));
   initaliseValues();
-  counterDOM.innerHTML = 0;
   endDOM.style.visibility = 'hidden';
 });
 
@@ -435,19 +434,19 @@ document.getElementById('left').addEventListener("click", () => move('left'));
 document.getElementById('right').addEventListener("click", () => move('right'));
 
 window.addEventListener("keydown", event => {
-  if (event.keyCode == '38' || event.keyCode == '87') {
+  if ((event.keyCode == '38'||event.keyCode == '87') && (!gameOver)) {
     // up arrow
     move('forward');
   }
-  else if (event.keyCode == '40'|| event.keyCode == '83') {
+  else if ((event.keyCode == '40'||event.keyCode == '83') && (!gameOver)) {
     // down arrow
     move('backward');
   }
-  else if (event.keyCode == '37'|| event.keyCode == '65') {
+  else if ((event.keyCode == '37'||event.keyCode == '65') && (!gameOver)) {
     // left arrow
     move('left');
   }
-  else if (event.keyCode == '39'|| event.keyCode == '68') {
+  else if ((event.keyCode == '39'||event.keyCode == '68') && (!gameOver)) {
     // right arrow
     move('right');
   }
@@ -557,10 +556,7 @@ function animate(timestamp) {
       switch(moves[0]) {
         case 'forward': {
           currentLane++;
-          counterDOM.innerHTML = currentLane;
-          if(highscoreDOM.innerHTML<currentLane){
-            highscoreDOM.innerHTML = currentLane;
-          }
+          counterDOM.innerHTML = currentLane;    
           break;
         }
         case 'backward': {
@@ -592,7 +588,8 @@ function animate(timestamp) {
       const carMinX = vechicle.position.x - vechicleLength*zoom/2;
       const carMaxX = vechicle.position.x + vechicleLength*zoom/2;
       if(chickenMaxX > carMinX && chickenMinX < carMaxX) {
-        endDOM.style.visibility = 'visible';  
+        gameOver = true;
+        endDOM.style.visibility = 'visible';
       }
     });
 
