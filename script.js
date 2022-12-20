@@ -597,7 +597,10 @@ function animate(timestamp) {
       switch(moves[0]) {
         case 'forward': {
           currentLane++;
-          counterDOM.innerHTML = currentLane;    
+          counterDOM.innerHTML = currentLane;
+          if(highscoreDOM.innerHTML<currentLane){
+            highscoreDOM.innerHTML = currentLane;
+          }    
           break;
         }
         case 'backward': {
