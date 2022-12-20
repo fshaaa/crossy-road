@@ -1,4 +1,5 @@
-const counterDOM = document.getElementById('counter');  
+const counterDOM = document.getElementById('counter'); 
+const highscoreDOM = document.getElementById('highscore') 
 const endDOM = document.getElementById('end');  
 
 const scene = new THREE.Scene();
@@ -433,19 +434,19 @@ document.getElementById('left').addEventListener("click", () => move('left'));
 document.getElementById('right').addEventListener("click", () => move('right'));
 
 window.addEventListener("keydown", event => {
-  if (event.keyCode == '38') {
+  if (event.keyCode == '38' || event.keyCode == '87') {
     // up arrow
     move('forward');
   }
-  else if (event.keyCode == '40') {
+  else if (event.keyCode == '40'|| event.keyCode == '83') {
     // down arrow
     move('backward');
   }
-  else if (event.keyCode == '37') {
+  else if (event.keyCode == '37'|| event.keyCode == '65') {
     // left arrow
     move('left');
   }
-  else if (event.keyCode == '39') {
+  else if (event.keyCode == '39'|| event.keyCode == '68') {
     // right arrow
     move('right');
   }
@@ -555,7 +556,10 @@ function animate(timestamp) {
       switch(moves[0]) {
         case 'forward': {
           currentLane++;
-          counterDOM.innerHTML = currentLane;    
+          counterDOM.innerHTML = currentLane;
+          if(highscoreDOM.innerHTML<currentLane){
+            highscoreDOM.innerHTML = currentLane;
+          }
           break;
         }
         case 'backward': {
