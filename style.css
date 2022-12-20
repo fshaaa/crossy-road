@@ -17,16 +17,6 @@ button {
   top: 20px;
   right: 20px;
 }
-#highscore_text {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-#highscore{
-  position: absolute;
-  top: 60px;
-  left: 20px;
-}
 #end {
   position: absolute;
   min-width: 100%;
@@ -65,4 +55,16 @@ button {
 }
 #controlls button:first-of-type {
   grid-column: 1/-1;
+}
+
+body{
+  background-color: #EFFA08;
+}
+
+#opening{
+  -webkit-text-fill-color: blueviolet;
+}
+
+#start{
+  margin-top: 50px;
 }
