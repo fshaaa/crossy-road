@@ -83,3 +83,15 @@ button {
 #controlls button:first-of-type {
   grid-column: 1/-1;
 }
+
+body{
+  background-color: #EFFA08;
+}
+
+#opening{
+  -webkit-text-fill-color: blueviolet;
+}
+
+#start{
+  margin-top: 50px;
+}

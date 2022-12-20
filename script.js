@@ -1,3 +1,4 @@
+
 const counterDOM = document.getElementById('counter'); 
 const highscoreDOM = document.getElementById('highscore') 
 const endDOM = document.getElementById('end');
@@ -474,19 +475,19 @@ document.getElementById('left').addEventListener("click", () => move('left'));
 document.getElementById('right').addEventListener("click", () => move('right'));
 
 window.addEventListener("keydown", event => {
-  if ((event.keyCode == '38'||event.keyCode == '87') && (!gameOver)) {
+  if (event.keyCode == '38') {
     // up arrow
     move('forward');
   }
-  else if ((event.keyCode == '40'||event.keyCode == '83') && (!gameOver)) {
+  else if (event.keyCode == '40') {
     // down arrow
     move('backward');
   }
-  else if ((event.keyCode == '37'||event.keyCode == '65') && (!gameOver)) {
+  else if (event.keyCode == '37') {
     // left arrow
     move('left');
   }
-  else if ((event.keyCode == '39'||event.keyCode == '68') && (!gameOver)) {
+  else if (event.keyCode == '39') {
     // right arrow
     move('right');
   }
@@ -537,9 +538,9 @@ function animate(timestamp) {
       const aBitAfterTheEndOFLane = boardWidth*zoom/2 + positionWidth*2*zoom;
       lane.vechicles.forEach(vechicle => {
         if(lane.direction) {
-          vechicle.position.x = vechicle.position.x < aBitBeforeTheBeginingOfLane ? aBitAfterTheEndOFLane : vechicle.position.x -= lane.speed/16*delta;
+          vechicle.position.x = vechicle.position.x < aBitBeforeTheBeginingOfLane ? aBitAfterTheEndOFLane : vechicle.position.x -= lane.speed/20*delta;
         }else{
-          vechicle.position.x = vechicle.position.x > aBitAfterTheEndOFLane ? aBitBeforeTheBeginingOfLane : vechicle.position.x += lane.speed/16*delta;
+          vechicle.position.x = vechicle.position.x > aBitAfterTheEndOFLane ? aBitBeforeTheBeginingOfLane : vechicle.position.x += lane.speed/20*delta;
         }
       });
     }
@@ -596,10 +597,7 @@ function animate(timestamp) {
       switch(moves[0]) {
         case 'forward': {
           currentLane++;
-          counterDOM.innerHTML = currentLane;
-          if(highscoreDOM.innerHTML<currentLane){
-            highscoreDOM.innerHTML = currentLane;
-          }
+          counterDOM.innerHTML = currentLane;    
           break;
         }
         case 'backward': {
