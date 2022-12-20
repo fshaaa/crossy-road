@@ -1,5 +1,8 @@
-const counterDOM = document.getElementById('counter');  
+const counterDOM = document.getElementById('counter'); 
+const highscoreDOM = document.getElementById('highscore') 
 const endDOM = document.getElementById('end');
+const levelDOM = document.getElementById('level');
+const controlDOM = document.getElementById('controlls')
 
 const scene = new THREE.Scene();
 
@@ -34,6 +37,7 @@ let previousTimestamp;
 let startMoving;
 let moves;
 let stepStartTimestamp;
+let gameOver = true;
 
 const carFrontTexture = new Texture(40,80,[{x: 0, y: 10, w: 30, h: 60 }]);
 const carBackTexture = new Texture(40,80,[{x: 10, y: 10, w: 30, h: 60 }]);
@@ -95,6 +99,49 @@ const vechicleColors = [0xa52523, 0xbdb638, 0x78b14b];
 const threeHeights = [20,45,60];
 let laneSpeeds = [2, 2.5, 3];
 
+document.getElementById('easy').addEventListener('click', () => {
+  levelDOM.style.visibility = 'hidden';
+  controlDOM.style.visibility = 'visible';
+  lanes.forEach(lane => scene.remove( lane.mesh ));
+  gameOver = false;
+  initaliseValues();
+  counterDOM.innerHTML = 0;
+  laneSpeeds = [1, 1.5, 2];
+  endDOM.style.visibility = 'hidden';
+});
+
+document.getElementById('medium').addEventListener('click', () => {
+  levelDOM.style.visibility = 'hidden';
+  controlDOM.style.visibility = 'visible';
+  lanes.forEach(lane => scene.remove( lane.mesh ));
+  gameOver = false;
+  initaliseValues();
+  counterDOM.innerHTML = 0;
+  laneSpeeds = [2.5, 3, 3.5];
+  endDOM.style.visibility = 'hidden';
+});
+
+document.getElementById('hard').addEventListener('click', () => {
+  levelDOM.style.visibility = 'hidden';
+  controlDOM.style.visibility = 'visible';
+  lanes.forEach(lane => scene.remove( lane.mesh ));
+  gameOver = false;
+  initaliseValues();
+  counterDOM.innerHTML = 0;
+  laneSpeeds = [4, 4.5, 5];
+  endDOM.style.visibility = 'hidden';
+});
+
+document.querySelector("#retry").addEventListener("click", () => {
+  lanes.forEach(lane => scene.remove( lane.mesh ));
+  gameOver = false;
+  initaliseValues();
+  counterDOM.innerHTML = 0;
+  endDOM.style.visibility = 'hidden';
+  levelDOM.style.visibility = 'visible';
+  controlDOM.style.visibility = 'hidden';
+});
+
 const initaliseValues = () => {
 
   lanes = generateLanes()
@@ -103,7 +150,6 @@ const initaliseValues = () => {
   currentColumn = Math.floor(columns/2);
 
   previousTimestamp = null;
-
   startMoving = false;
   moves = [];
   stepStartTimestamp;
@@ -118,7 +164,7 @@ const initaliseValues = () => {
   dirLight.position.y = initialDirLightPositionY;
 }
 
-initaliseValues();
+initaliseValues()
 
 const renderer = new THREE.WebGLRenderer({
   alpha: true,
@@ -419,33 +465,6 @@ function Lane(index) {
   }
 }
 
-document.querySelector("#easy").addEventListener("click", () => {
-  lanes.forEach(lane => scene.remove( lane.mesh ));
-  endDOM.style.visibility = 'hidden';
-  laneSpeeds = [1, 1.5, 2];
-  initaliseValues();
-});
-
-document.querySelector("#medium").addEventListener("click", () => {
-  lanes.forEach(lane => scene.remove( lane.mesh ));
-  endDOM.style.visibility = 'hidden';
-  laneSpeeds = [2.5, 3, 3.5];
-  initaliseValues();
-});
-
-document.querySelector("#hard").addEventListener("click", () => {
-  lanes.forEach(lane => scene.remove( lane.mesh ));
-  endDOM.style.visibility = 'hidden';
-  laneSpeeds = [4, 4.5, 5];
-  initaliseValues();
-});
-
-document.querySelector("#retry").addEventListener("click", () => {
-  lanes.forEach(lane => scene.remove( lane.mesh ));
-  initaliseValues();
-  endDOM.style.visibility = 'hidden';
-});
-
 document.getElementById('forward').addEventListener("click", () => move('forward'));
 
 document.getElementById('backward').addEventListener("click", () => move('backward'));
@@ -455,19 +474,19 @@ document.getElementById('left').addEventListener("click", () => move('left'));
 document.getElementById('right').addEventListener("click", () => move('right'));
 
 window.addEventListener("keydown", event => {
-  if (event.keyCode == '38'){
+  if ((event.keyCode == '38'||event.keyCode == '87') && (!gameOver)) {
     // up arrow
     move('forward');
   }
-  else if (event.keyCode == '40') {
+  else if ((event.keyCode == '40'||event.keyCode == '83') && (!gameOver)) {
     // down arrow
     move('backward');
   }
-  else if (event.keyCode == '37') {
+  else if ((event.keyCode == '37'||event.keyCode == '65') && (!gameOver)) {
     // left arrow
     move('left');
   }
-  else if (event.keyCode == '39') {
+  else if ((event.keyCode == '39'||event.keyCode == '68') && (!gameOver)) {
     // right arrow
     move('right');
   }
@@ -577,7 +596,10 @@ function animate(timestamp) {
       switch(moves[0]) {
         case 'forward': {
           currentLane++;
-          counterDOM.innerHTML = currentLane;    
+          counterDOM.innerHTML = currentLane;
+          if(highscoreDOM.innerHTML<currentLane){
+            highscoreDOM.innerHTML = currentLane;
+          }
           break;
         }
         case 'backward': {
@@ -609,6 +631,8 @@ function animate(timestamp) {
       const carMinX = vechicle.position.x - vechicleLength*zoom/2;
       const carMaxX = vechicle.position.x + vechicleLength*zoom/2;
       if(chickenMaxX > carMinX && chickenMinX < carMaxX) {
+        moves = []
+        gameOver = true;
         endDOM.style.visibility = 'visible';
       }
     });
