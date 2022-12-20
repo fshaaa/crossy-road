@@ -17,6 +17,32 @@ button {
   top: 20px;
   right: 20px;
 }
+#highscore_text {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+#highscore{
+  position: absolute;
+  top: 60px;
+  left: 20px;
+}
+#level{
+  position: absolute;
+  min-width: 100%;
+  min-height: 100%;
+  display: flex;
+  grid-template-rows: auto auto;
+  grid-column-gap: 30px;
+  align-items: center;
+  justify-content: center;
+}
+#level button{
+  background-color: green;
+  padding: 20px 40px 20px 40px;
+  font-family: inherit;
+  font-size: inherit;
+}
 #end {
   position: absolute;
   min-width: 100%;
@@ -39,6 +65,7 @@ button {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  visibility: hidden;
 }
 #controlls div {
   display: grid;
