@@ -1,5 +1,5 @@
 const counterDOM = document.getElementById('counter');  
-const endDOM = document.getElementById('end');  
+const endDOM = document.getElementById('end');
 
 const scene = new THREE.Scene();
 
@@ -88,14 +88,15 @@ dirLight.shadow.camera.bottom = - d;
 backLight = new THREE.DirectionalLight(0x000000, .4);
 backLight.position.set(200, 200, 50);
 backLight.castShadow = true;
-scene.add(backLight)
+scene.add(backLight);
 
 const laneTypes = ['car', 'truck', 'forest'];
-const laneSpeeds = [2, 2.5, 3];
 const vechicleColors = [0xa52523, 0xbdb638, 0x78b14b];
 const threeHeights = [20,45,60];
+let laneSpeeds = [2, 2.5, 3];
 
 const initaliseValues = () => {
+
   lanes = generateLanes()
 
   currentLane = 0;
@@ -418,6 +419,27 @@ function Lane(index) {
   }
 }
 
+document.querySelector("#easy").addEventListener("click", () => {
+  lanes.forEach(lane => scene.remove( lane.mesh ));
+  endDOM.style.visibility = 'hidden';
+  laneSpeeds = [1, 1.5, 2];
+  initaliseValues();
+});
+
+document.querySelector("#medium").addEventListener("click", () => {
+  lanes.forEach(lane => scene.remove( lane.mesh ));
+  endDOM.style.visibility = 'hidden';
+  laneSpeeds = [2.5, 3, 3.5];
+  initaliseValues();
+});
+
+document.querySelector("#hard").addEventListener("click", () => {
+  lanes.forEach(lane => scene.remove( lane.mesh ));
+  endDOM.style.visibility = 'hidden';
+  laneSpeeds = [4, 4.5, 5];
+  initaliseValues();
+});
+
 document.querySelector("#retry").addEventListener("click", () => {
   lanes.forEach(lane => scene.remove( lane.mesh ));
   initaliseValues();
@@ -433,7 +455,7 @@ document.getElementById('left').addEventListener("click", () => move('left'));
 document.getElementById('right').addEventListener("click", () => move('right'));
 
 window.addEventListener("keydown", event => {
-  if (event.keyCode == '38') {
+  if (event.keyCode == '38'){
     // up arrow
     move('forward');
   }
